@@ -24,3 +24,9 @@ Installation:
 For server: run `python server.py` and continue
 
 For client: run `python client.py` and continue
+
+---
+### Note
+Change the `server.py` source code to use encryption.
+
+Please read the source code.
