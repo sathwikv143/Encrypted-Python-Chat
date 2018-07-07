@@ -10,7 +10,7 @@ Two python modules `simple-crypt` and `wget` are required
 
 Installation:
 
-  `pip intall simplecrypt`
+  `pip intall simple-crypt`
   
   `pip intall wget`
   
