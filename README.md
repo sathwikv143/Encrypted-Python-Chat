@@ -14,7 +14,7 @@ Installation:
   
   `pip intall wget`
   
-`ngrok` a tool for port forwarding
+`NGROK` a tool for port forwarding for external network connection.
 
 [NGROK](https://ngrok.com)
 
