@@ -5,13 +5,21 @@
 # Note : please share the IP Address and Port with the 
 # client(s) to start chatting.
 
-import socket
+import socket, getpass
 import sys, os
 from os import system, path
 from time import sleep
 from platform import system as systemos, architecture
 from wget import download
 from simplecrypt import encrypt,decrypt
+
+
+# method to check if the NGROK file exists
+def file_exists(file):
+	if os.path.exists(file):
+		return True
+	else:
+		return False
 
 # NGROK #
 # a port forword-er without need of manipulating the router
@@ -20,13 +28,6 @@ from simplecrypt import encrypt,decrypt
 # for NGROK related error like *authtoken not found*
 # go to ngrok.io and create a account and copy authtoken
 # run in terminal *./ngrok authtoken <CopiedAuthToken>*
-
-# method to check if the NGROK file exists
-def file_exists(file):
-	if os.path.exists(file):
-		return True
-	else:
-		return False
 
 # checking ngrok, if not present it will be downloaded
 # if already present it runs the ngrok
@@ -83,35 +84,20 @@ def chat(host,port):
 	client, address = server.accept() #accepting connection form client
 	system('clear')
 	print('Got connection from : ', address)
-	name = input("Your name : ") # name to identify youself
+	name = input("Your name : ") # name to identify yourself
 	# set password to encrypt and decrypt the chat
-	# uncomment bolow line (passwd) to enable encryption password
-	# passwd = input("Set password for encrypted chat : ") 
+	passwd = getpass.getpass("Enter password for encrypted chat : ") # password to encrypt chat msgs
 	while True:
-		# uncomment below line to receive and decrypt the message
-		# print(decrypt(passwd,client.recv(1024)).decode('utf-8')) # decrypt the received encrypted msg
-		
-		# comment below line if above line is uncommented
-		print(client.recv(1024).decode('utf-8'))
+		print(decrypt(passwd,client.recv(1024)).decode('utf-8')) # decrypt the received encrypted msg
 		msg = input("Me : ")
-
-		# uncomment the below line to encrypt the message
-		#encMsg = encrypt(passwd,(name+" : "+msg)) # encrypt the msg
+		encMsg = encrypt(passwd,(name+" : "+msg)) # encrypt the msg
 		if msg.lower() == "bye":
-			# uncomment the below line to send encrypted message
-			# client.send(encMsg) # send encrypted msg
-
-			# comment the below line if above line in uncommented
-			client.send((name+" : "+msg).encode('utf-8'))
+			client.send(encMsg) # send encrypted msg
 			client.close()
 			server.close()
 			exit(0)
 		else:
-			# uncomment the below line to send encrypted message
-			# client.send(encMsg) # send encrypted msg
-
-			# comment the below line if above line in uncommented
-			client.send((name+" : "+msg).encode('utf-8'))
+			client.send(encMsg) # send encrypted msg
 
 if __name__ == '__main__':
 	host = ''
