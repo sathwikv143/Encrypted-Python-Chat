@@ -10,7 +10,7 @@ Only single python module `simple-crypt` required
 
 Installation:
 
-  `pip install simple-crypt`
+  `pip3 install simple-crypt`
 
 ---
 ### Usage
