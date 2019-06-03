@@ -2,7 +2,7 @@
 ---
 ##### This script is built on python version 3
 ##### It is chat application based on encryption with password
-##### It works only in teminal or command prompt
+##### It works only in terminal or command prompt
 ##### Independent of operating system
 ---
 ### Requirements
