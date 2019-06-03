@@ -6,17 +6,11 @@
 ##### Independent of operating system
 ---
 ### Requirements
-Two python modules `simple-crypt` and `wget` are required
+Only single python module `simple-crypt` required
 
 Installation:
 
   `pip install simple-crypt`
-  
-  `pip install wget`
-  
-`NGROK` a tool for port forwarding for external network connection.
-
-[NGROK](https://ngrok.com)
 
 ---
 ### Usage
