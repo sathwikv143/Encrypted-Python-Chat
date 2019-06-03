@@ -33,9 +33,9 @@ def chat(host,port):
 		print(decrypt(passwd,server.recv(1024)).decode('utf-8')) # receive msg and decrypt
 
 if __name__ == '__main__':
-	print("Ask the seerver maintainer for server IP and port")
-	host = input("Enter the server IP : ")
-	port = int(input("Enter the port : "))
+	print("Ask the server maintainer for server IP and PORT")
+	host = input("Enter the server IP address : ")
+	port = int(input("Enter the server PORT : "))
 	try:
 		chat(host,port)
 	except KeyboardInterrupt:

@@ -10,64 +10,24 @@ import sys, os
 from os import system, path
 from time import sleep
 from platform import system as systemos, architecture
-from wget import download
 from simplecrypt import encrypt,decrypt
 
 
-# method to check if the NGROK file exists
-def file_exists(file):
-	if os.path.exists(file):
-		return True
-	else:
-		return False
-
-# NGROK #
-# a port forword-er without need of manipulating the router
-# easy to use and work with
-# here it is used as to connect to external networks
-# for NGROK related error like *authtoken not found*
-# go to ngrok.io and create a account and copy authtoken
-# run in terminal *./ngrok authtoken <CopiedAuthToken>*
-
-# checking ngrok, if not present it will be downloaded
-# if already present it runs the ngrok
-def checkNgrok():
-	if file_exists('ngrok') == False: 
-		print('Downloading Ngrok...')
-		ostype = systemos().lower()
-		if architecture()[0] == '64bit':
-			filename = 'ngrok-stable-{0}-amd64.zip'.format(ostype)
-		else:
-			filename = 'ngrok-stable-{0}-386.zip'.format(ostype)
-		url = 'https://bin.equinox.io/c/4VmDzA7iaHb/' + filename
-		download(url)
-		system('unzip ' + filename)
-		system('rm -Rf ' + filename)
-		system('clear')
-		runNgrok()
-	else:
-		runNgrok()
-
-# running the downloaded or the already present NGROK file
-# over TCP with port 9568 and store it to ngrok.url
-def runNgrok():
-	system('rm ngrok.url > /dev/null 2>&1')
-	system('clear')
+# using serveo.net to forward port for external network communication
+def runServeo():
 	print("Connecting to External network....")
-	system('./ngrok tcp 9568 > /dev/null &')
-	sleep(10)
-	system('curl -s -N http://127.0.0.1:4040/status | grep "tcp://0.tcp.ngrok.io:[0-9]*" -oh > ngrok.url')
-	url = open('ngrok.url','r')
-	print(url.read())
-	print("Share the above URL and PORT number with client.")
-	url.close()
+	system('ssh -R 9568:0.0.0.0:9568 serveo.net > /dev/null &')
+	sleep(5)
+	ip = socket.gethostbyname('serveo.net')
+	print("IP: {} \t PORT: 9568".format(ip))
+	print("Share the above IP and PORT number with client.")
 
 # checking if user needs to connect through Internal Network or External Network
 def InternalExternal():
-	inter = input("Chat on Internal or External Network ? (I/E): ")
-	if inter.lower() == 'e':
+	mode = input("Chat on Internal or External Network ? (I/E): ")
+	if mode.lower() == 'e':
 		return True
-	elif inter.lower() == 'i':
+	elif mode.lower() == 'i':
 		return False
 	else:
 		print("Choose correct option !")
@@ -95,6 +55,7 @@ def chat(host,port):
 			client.send(encMsg) # send encrypted msg
 			client.close()
 			server.close()
+			system("pkill -f 'ssh -R 9568:0.0.0.0:9568 serveo.net'")
 			exit(0)
 		else:
 			client.send(encMsg) # send encrypted msg
@@ -102,7 +63,7 @@ def chat(host,port):
 if __name__ == '__main__':
 	host = ''
 	if InternalExternal():
-		checkNgrok()
+		runServeo()
 		host = "0.0.0.0"
 		port = 9568
 	else:
@@ -114,4 +75,5 @@ if __name__ == '__main__':
 		chat(host,port)
 	except KeyboardInterrupt:
 		print("\nKeyboard Interrupted ! \nBye bye..")
+		system("pkill -f 'ssh -R 9568:0.0.0.0:9568 serveo.net'")
 		exit()
