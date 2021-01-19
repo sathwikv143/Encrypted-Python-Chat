@@ -35,7 +35,7 @@ def InternalExternal():
 
 # actual code to chat over the network
 # the message sent and received are encoded as 'UTF-8'
-# change the 80 line for utilizing number of connections to accept
+# change the 42 line for utilizing number of connections to accept
 def chat(host,port):
 	server = socket.socket(socket.AF_INET,socket.SOCK_STREAM) # creating of socket
 	server.bind((host, port)) # binding the host and port
